@@ -13,10 +13,10 @@ class Eraser {
 
   void display() {
     fill(eraserColor);
-    rect( 100, 780, w, h);
+    rect( width - 300, 620, w, h);
     fill(0);
     textAlign(CENTER, CENTER);
-    text(label, 100, 780, w, h);
+    text(label, width - 300, 620, w, h);
   }
 
   boolean isMouseOver() {
