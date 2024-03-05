@@ -2,9 +2,12 @@ import controlP5.*;
 
 ControlP5 cp5;
 SaveButton saveButton;
+Eraser eraser;
 
 float strokeWeightValue = 2; 
 int selectedColor = color(0); 
+
+int eraserColor = color(255); // Hvid farve for viskelæder
 
 int[] colors = {
   color(0, 0, 255),    // Blue
@@ -22,35 +25,59 @@ void setup() {
   cp5 = new ControlP5(this);
 
   cp5.addSlider("strokeWeightSlider")
-    .setPosition(750, 750)
-    .setSize(20, 50)
-    .setRange(1, 10)
-    .setValue(strokeWeightValue)
-    .setLabel("Stregtykkelse")
-    .setSliderMode(Slider.FLEXIBLE); 
+   .setPosition(620, 620)
+   .setSize(150, 20) // Adjust size for horizontal slider
+   .setRange(1, 10)
+   .setValue(strokeWeightValue)
+   .setLabel("Stregtykkelse")
+   .setSliderMode(Slider.FLEXIBLE); // Set slider mode to horizontal
 
-  saveButton = new SaveButton(width - 80, height - 750, 70, 20, "Gem");
+
+  saveButton = new SaveButton(width - 100, 620, 70, 20, "Gem");
+  eraser = new Eraser(width - 300, 620, 70, 20, "Viskelæder");
+
   
   // Define rectangles for color selection
   for (int i = 0; i < colors.length; i++) {
-    int y = 450 + i * 30;
+    int y = 620 + i * 30;
     cp5.addButton("colorButton_" + i)
        .setPosition(100, y)
        .setSize(80, 20)
        .setLabel("")
        .setColorBackground(colors[i]);
+       
+  drawRectSides(0, 0, 800, 600);
   }
+}
+
+void drawRectSides(float x, float y, float width, float height) {
+  // Draw top side
+  line(x, y, x + width, y);
+  // Draw right side
+  line(x + width, y, x + width, y + height);
+  // Draw bottom side
+  line(x + width, y + height, x, y + height);
+  // Draw left side
+  line(x, y + height, x, y);
 }
 
 void draw() {
   stroke(selectedColor);
   strokeWeight(strokeWeightValue);
-
-  if (mousePressed && mouseY > 450 && mouseY < 750) {
+  
+  if (mousePressed && mouseY > 20 && mouseY < 590) {
     line(pmouseX, pmouseY, mouseX, mouseY);
+    
+    
+  //fill(255);
+  //stroke(0);
+  //strokeWeight(3);
+  //rect(20, 20, 760, 600, 28);
+
   }
   
   saveButton.display();
+  eraser.display();
 }
 
 void strokeWeightSlider(float value) {
@@ -74,5 +101,8 @@ void mousePressed() {
   if (saveButton.isClicked()) {
     save("tegning.png"); 
     println("Tegning gemt lokalt: tegning.png");
+  } else if (eraser.isClicked()) {
+    selectedColor = eraserColor; // Skift farven til hvid for viskelæder
+    println("Viskelæder aktivt");
   }
 }
