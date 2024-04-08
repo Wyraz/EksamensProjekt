@@ -12,6 +12,8 @@ class SaveButton {
 
   void display() {
     // Tegn en rektangel som gem-knap
+    strokeWeight(5);
+    stroke(0);
     fill(150);
     rect(posX, posY, width, height);
 
