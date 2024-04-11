@@ -1,0 +1,21 @@
+import controlP5.*;
+
+
+float strokeWeightValue = 2; // Initial value for stroke weight
+
+void setupSlider() {
+  cp5 = new ControlP5(this);
+
+  cp5.addSlider("strokeWeightSlider")
+   .setPosition(200, 620)
+   .setSize(150, 20) // Adjust size for horizontal slider
+   .setRange(1, 10)
+   .setValue(strokeWeightValue)
+   .setLabel("Stregtykkelse")
+   .setSliderMode(Slider.FLEXIBLE); // Set slider mode to horizontal
+}
+
+void strokeWeightSlider(float value) {
+  strokeWeightValue = value;
+  println("Stregtykkelse: " + strokeWeightValue);
+}
